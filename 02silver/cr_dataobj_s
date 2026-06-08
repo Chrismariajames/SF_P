@@ -1,0 +1,180 @@
+--CREATE OR REPLACE SCHEMA ECOM_DW.SILVER;
+create or replace table ecom_dw.silver.channels_silver
+(
+channel_code VARCHAR,
+channel_name VARCHAR,
+channel_type VARCHAR,
+is_active BOOLEAN,
+source_system STRING,
+file_row_number NUMBER,
+created_timestamp TIMESTAMP,
+updated_timestamp TIMESTAMP 
+);
+
+
+
+
+CREATE OR REPLACE TABLE ECOM_DW.SILVER.CUSTOMERS_SILVER
+(
+    CUSTOMER_ID        VARCHAR,
+    FIRST_NAME         VARCHAR,
+    LAST_NAME          VARCHAR,
+    EMAIL              VARCHAR,
+    PHONE              VARCHAR,
+    GENDER             VARCHAR,
+    DATE_OF_BIRTH      DATE,
+    CUSTOMER_STATUS    VARCHAR,
+    CITY               VARCHAR,
+    STATE_CODE         VARCHAR,
+    STATE_NAME         VARCHAR,
+    COUNTRY_CODE       VARCHAR,
+    COUNTRY_NAME       VARCHAR,
+    POSTAL_CODE        VARCHAR,
+    SIGNUP_DATE        DATE,
+    SOURCE_SYSTEM      VARCHAR,
+
+    CREATED_TIMESTAMP  TIMESTAMP_NTZ,
+    UPDATED_TIMESTAMP  TIMESTAMP_NTZ
+);
+
+CREATE OR REPLACE TABLE ECOM_DW.SILVER.INVENTORY_SILVER
+(
+snapshot_date STRING, 
+product_id STRING, 
+on_hand_qty STRING, 
+reserved_qty STRING, 
+available_qty STRING, 
+unit_cost STRING, 
+inventory_value STRING,
+source_system STRING,
+created_timestamp TIMESTAMP,
+updated_timestamp TIMESTAMP 
+);
+
+CREATE OR REPLACE TABLE ECOM_DW.SILVER.ORDERS_SILVER
+(
+order_id STRING, 
+order_line_id STRING, 
+order_date STRING, 
+customer_id STRING, 
+product_id STRING, 
+channel_code STRING, 
+promo_code STRING, 
+quantity STRING, 
+unit_price STRING, 
+gross_amount STRING, 
+discount_amount STRING, 
+tax_amount STRING, 
+net_amount STRING, 
+payment_status STRING,
+source_system STRING,
+created_timestamp TIMESTAMP,
+updated_timestamp TIMESTAMP 
+);
+
+CREATE OR REPLACE TABLE ECOM_DW.SILVER.PRODUCTS_SILVER
+(
+    product_id       STRING,
+    sku              STRING,
+    product_name     STRING,
+    brand            STRING,
+    department_id    STRING,
+    department_name  STRING,
+    category_id      STRING,
+    category_name    STRING,
+    supplier_id      STRING,
+    supplier_name    STRING,
+    unit_cost        NUMBER(10,2),
+    unit_price       NUMBER(10,2),
+    is_active        BOOLEAN,
+    source_system    STRING,
+    bronze_load_time TIMESTAMP,
+    silver_load_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP()
+);
+select * from silver.promotions_silver;
+select * from silver.SHIPMENTS_silver;
+CREATE OR REPLACE TABLE ECOM_DW.SILVER.SHIPMENTS_SILVER
+(
+    shipment_id           STRING,
+    order_id              STRING,
+    shipment_date         DATE,
+    customer_id           STRING,
+    product_id            STRING,
+    shipping_method_code  STRING,
+    shipped_qty           NUMBER(10,0),
+    shipping_cost         NUMBER(10,2),
+    delivery_days         NUMBER(10,0),
+    source_system         STRING,
+    bronze_load_time      TIMESTAMP,
+    silver_load_time      TIMESTAMP
+);
+
+CREATE OR REPLACE TABLE ECOM_DW.SILVER.SHIPPING_METHODS_SILVER
+(
+    shipping_method_code  STRING,
+    shipping_method_name  STRING,
+    shipping_type         STRING,
+    source_system         STRING,
+    bronze_load_time      TIMESTAMP,
+    silver_load_time      TIMESTAMP
+);
+
+
+--drop pipe CUSTOMER_REVIEWS_PIPE;
+--drop pipe ECOMDW_CHANNELS_PIPE;
+--drop pipe ECOMDW_SHIPPING_METHODS_PIPE;
+
+create or replace TABLE ECOM_DW.SILVER.RAW_CUSTOMER_REVIEWS_SILVER (
+	REVIEW_ID VARCHAR(16777216),
+	ORDER_ID NUMBER(38,0),
+	CUSTOMER_ID VARCHAR(16777216),
+	REVIEW_DATE DATE,
+	RATING NUMBER(38,0),
+	REVIEW_TEXT VARCHAR(16777216),
+	SOURCE_SYSTEM VARCHAR(16777216),
+	CREATED_TIMESTAMP TIMESTAMP_NTZ(9),
+	UPDATED_TIMESTAMP TIMESTAMP_NTZ(9)
+);
+
+create or replace TABLE ECOM_DW.SILVER.CUSTOMER_REVIEWS_SILVER (
+	REVIEW_ID VARCHAR(16777216),
+	ORDER_ID NUMBER(38,0),
+	CUSTOMER_ID VARCHAR(16777216),
+	REVIEW_DATE DATE,
+	RATING NUMBER(38,0),
+	REVIEW_TEXT VARCHAR(16777216),
+	SOURCE_SYSTEM VARCHAR(16777216),
+	CREATED_TIMESTAMP TIMESTAMP_NTZ(9),
+	UPDATED_TIMESTAMP TIMESTAMP_NTZ(9)
+);
+
+
+CREATE OR REPLACE TABLE SILVER.WEB_EVENTS_SILVER
+(
+    EVENT_ID        STRING,
+    EVENT_TS        TIMESTAMP,
+    CUSTOMER_ID     STRING,
+    CITY            STRING,
+    EVENT_TYPE      STRING,
+    PRODUCT_ID      STRING,
+    ORDER_ID        NUMBER,
+
+    SOURCE_SYSTEM       STRING,
+
+    CREATED_TS      TIMESTAMP,
+    UPDATED_TS      TIMESTAMP
+);
+
+CREATE OR REPLACE TABLE ECOM_DW.SILVER.PROMOTIONS_SILVER
+(
+    promo_code        STRING,
+    promo_name        STRING,
+    discount_type     STRING,
+    discount_value    NUMBER(10,2),
+    start_date        DATE,
+    end_date          DATE,
+    is_active         BOOLEAN,
+    source_system     STRING,
+    bronze_load_time  TIMESTAMP,
+    silver_load_time  TIMESTAMP
+);
